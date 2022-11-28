@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\CalendarSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Calendars';
+$this->title = 'Не рабочие дни (произв.календарь)';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="calendar-index">
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'date',
             'type_id',
             [

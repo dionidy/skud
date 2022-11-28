@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\MoveSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Moves';
+$this->title = 'Движения';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="move-index">

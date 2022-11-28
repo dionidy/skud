@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\UserCalendarSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'User Calendars';
+$this->title = 'Отклонения по графику';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-calendar-index">
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'employee_id',
             'type_id',
             'date_start',

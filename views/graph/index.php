@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\GraphSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Graphs';
+$this->title = 'Графики работ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="graph-index">
@@ -30,12 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'name',
             'start',
             'end',
             'break_start',
-            //'break_end',
+            'break_end',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Graph $model, $key, $index, $column) {

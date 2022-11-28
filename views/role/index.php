@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\RoleSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Roles';
+$this->title = 'Роли';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="role-index">
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'employee_id',
             'role:boolean',
             [
