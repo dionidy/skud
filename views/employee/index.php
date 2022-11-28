@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\EmployeeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Employees';
+$this->title = 'Сотрудники';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="employee-index">
@@ -30,12 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'fio',
             'num',
             'dep_id',
             'graph_id',
-            //'email:email',
+            'email:email',
             //'pass',
             //'salt',
             [
