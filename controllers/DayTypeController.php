@@ -2,17 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Calendar;
-use \app\models\DayType;
-use app\models\CalendarSearch;
+use app\models\DayType;
+use app\models\DayTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CalendarController implements the CRUD actions for Calendar model.
+ * DayTypeController implements the CRUD actions for DayType model.
  */
-class CalendarController extends Controller
+class DayTypeController extends Controller
 {
     /**
      * @inheritDoc
@@ -33,13 +32,13 @@ class CalendarController extends Controller
     }
 
     /**
-     * Lists all Calendar models.
+     * Lists all DayType models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new CalendarSearch();
+        $searchModel = new DayTypeSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +48,7 @@ class CalendarController extends Controller
     }
 
     /**
-     * Displays a single Calendar model.
+     * Displays a single DayType model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -62,13 +61,13 @@ class CalendarController extends Controller
     }
 
     /**
-     * Creates a new Calendar model.
+     * Creates a new DayType model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Calendar();
+        $model = new DayType();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -78,16 +77,13 @@ class CalendarController extends Controller
             $model->loadDefaultValues();
         }
 
-        $dayTypes = DayType::getDayTypes();
-        
         return $this->render('create', [
             'model' => $model,
-            'dayTypes' => $dayTypes,
         ]);
     }
 
     /**
-     * Updates an existing Calendar model.
+     * Updates an existing DayType model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -107,7 +103,7 @@ class CalendarController extends Controller
     }
 
     /**
-     * Deletes an existing Calendar model.
+     * Deletes an existing DayType model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -121,15 +117,15 @@ class CalendarController extends Controller
     }
 
     /**
-     * Finds the Calendar model based on its primary key value.
+     * Finds the DayType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Calendar the loaded model
+     * @return DayType the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Calendar::findOne(['id' => $id])) !== null) {
+        if (($model = DayType::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

@@ -53,10 +53,10 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'fio' => 'Fio',
-            'num' => 'Num',
-            'dep_id' => 'Dep ID',
-            'graph_id' => 'Graph ID',
+            'fio' => 'ФИО',
+            'num' => 'Табельный номер',
+            'dep_id' => 'Отдел',
+            'graph_id' => 'График работы',
             'email' => 'Email',
             'pass' => 'Pass',
             'salt' => 'Salt',
@@ -102,4 +102,8 @@ class Employee extends \yii\db\ActiveRecord
     {
         return $this->hasMany(User::class, ['employee_id' => 'id']);
     }
+    
+
+    
+    
 }

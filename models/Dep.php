@@ -38,8 +38,8 @@ class Dep extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
+            'id' => 'Номер',
+            'name' => 'Название',
         ];
     }
 
@@ -52,4 +52,14 @@ class Dep extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Employee::class, ['dep_id' => 'id']);
     }
+    
+    public static function getList():array {
+        $models = self::find()->orderBy('id')->all();
+        $list = [];
+        foreach ($models as $model) {
+            $list[$model->id] = $model->name;
+        }
+        return $list;
+    }
+    
 }

@@ -15,3 +15,5 @@
 ./yii migrate/create create_calendar_table --fields="date:date,type_id:integer:foreignKey(day_type)"
 
 
+./yii migrate/create create_day_type_table --fields="type:char(45)"
+./yii migrate/create create_user_table --fields="name:string(100)"

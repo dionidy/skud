@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int|null $employee_id
- * @property bool|null $role
+ * @property int|null $role
  *
  * @property Employee $employee
  */
@@ -29,9 +29,8 @@ class Role extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['employee_id'], 'default', 'value' => null],
-            [['employee_id'], 'integer'],
-            [['role'], 'boolean'],
+            [['employee_id', 'role'], 'default', 'value' => null],
+            [['employee_id', 'role'], 'integer'],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::class, 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }

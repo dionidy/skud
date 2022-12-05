@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Role;
+use app\models\DayType;
 
 /**
- * RoleSearch represents the model behind the search form of `app\models\Role`.
+ * DayTypeSearch represents the model behind the search form of `app\models\DayType`.
  */
-class RoleSearch extends Role
+class DayTypeSearch extends DayType
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,8 @@ class RoleSearch extends Role
     public function rules()
     {
         return [
-            [['id', 'employee_id', 'role'], 'integer'],
+            [['id'], 'integer'],
+            [['type'], 'safe'],
         ];
     }
 
@@ -39,7 +40,7 @@ class RoleSearch extends Role
      */
     public function search($params)
     {
-        $query = Role::find();
+        $query = DayType::find();
 
         // add conditions that should always apply here
 
@@ -58,9 +59,9 @@ class RoleSearch extends Role
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'employee_id' => $this->employee_id,
-            'role' => $this->role,
         ]);
+
+        $query->andFilterWhere(['ilike', 'type', $this->type]);
 
         return $dataProvider;
     }

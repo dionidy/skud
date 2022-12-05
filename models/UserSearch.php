@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Role;
+use app\models\User;
 
 /**
- * RoleSearch represents the model behind the search form of `app\models\Role`.
+ * UserSearch represents the model behind the search form of `app\models\User`.
  */
-class RoleSearch extends Role
+class UserSearch extends User
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,9 @@ class RoleSearch extends Role
     public function rules()
     {
         return [
-            [['id', 'employee_id', 'role'], 'integer'],
+            [['id'], 'integer'],
+            [['email', 'password_hash'], 'safe'],
+            [['is_admin'], 'boolean'],
         ];
     }
 
@@ -39,7 +41,7 @@ class RoleSearch extends Role
      */
     public function search($params)
     {
-        $query = Role::find();
+        $query = User::find();
 
         // add conditions that should always apply here
 
@@ -58,9 +60,11 @@ class RoleSearch extends Role
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'employee_id' => $this->employee_id,
-            'role' => $this->role,
+            'is_admin' => $this->is_admin,
         ]);
+
+        $query->andFilterWhere(['ilike', 'email', $this->email])
+            ->andFilterWhere(['ilike', 'password_hash', $this->password_hash]);
 
         return $dataProvider;
     }

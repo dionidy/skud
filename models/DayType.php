@@ -8,10 +8,7 @@ use Yii;
  * This is the model class for table "day_type".
  *
  * @property int $id
- * @property string|null $name
- *
- * @property Calendar[] $calendars
- * @property UserCalendar[] $userCalendars
+ * @property string|null $type Тип
  */
 class DayType extends \yii\db\ActiveRecord
 {
@@ -29,7 +26,7 @@ class DayType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string', 'max' => 1],
+            [['type'], 'string', 'max' => 45],
         ];
     }
 
@@ -40,27 +37,17 @@ class DayType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'type' => 'Тип',
         ];
     }
-
-    /**
-     * Gets query for [[Calendars]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCalendars()
-    {
-        return $this->hasMany(Calendar::class, ['type_id' => 'id']);
+    
+    public static function getDayTypes():array {
+        $models = self::find()->where(['type'=>['Выходной','Праздник']])->orderBy('id')->all();
+        $list = [];
+        foreach ($models as $model) {
+            $list[$model->id] = $model->type;
+        }
+        return $list;
     }
-
-    /**
-     * Gets query for [[UserCalendars]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserCalendars()
-    {
-        return $this->hasMany(UserCalendar::class, ['type_id' => 'id']);
-    }
+    
 }

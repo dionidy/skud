@@ -42,11 +42,21 @@ class Graph extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'start' => 'Start',
-            'end' => 'End',
-            'break_start' => 'Break Start',
-            'break_end' => 'Break End',
+            'name' => 'Название',
+            'start' => 'Время начало',
+            'end' => 'Время окончания',
+            'break_start' => 'Начало перерыва',
+            'break_end' => 'Окончание перерыва',
         ];
     }
+    
+    public static function getList():array {
+        $models = self::find()->orderBy("id")->all();
+        $list = [];
+        foreach ($models as $model) {
+            $list[$model->id] = $model->name;
+        }
+        return $list;
+    }
+    
 }

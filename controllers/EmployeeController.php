@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Employee;
 use app\models\EmployeeSearch;
+use app\models\Dep;
+use app\models\Graph;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -44,6 +46,8 @@ class EmployeeController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dep_list' => Dep::getList(),
+            'graph_list' => Graph::getList(),
         ]);
     }
 
@@ -77,8 +81,13 @@ class EmployeeController extends Controller
             $model->loadDefaultValues();
         }
 
+//        return $this->render('create', [
+//            'model' => $model,
+        
         return $this->render('create', [
             'model' => $model,
+            'dep_list' => Dep::getList(),
+            'graph_list' => Graph::getList(),
         ]);
     }
 

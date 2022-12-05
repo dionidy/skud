@@ -11,13 +11,14 @@ use yii\base\Model;
  * @property-read User|null $user
  *
  */
+
 class LoginForm extends Model
 {
     public $username;
     public $password;
     public $rememberMe = true;
 
-    private $_user = false;
+    private $_userIdentity = false;
 
 
     /**
@@ -34,6 +35,14 @@ class LoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
+    
+    public function attributeLabels(): array {
+        return [
+            'username' => 'Email',
+            'password' => 'Пароль',
+            'rememberMe' => 'Запомнить меня',
+        ];
+    }
 
     /**
      * Validates the password.
@@ -45,9 +54,9 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
+            $userIdentity = $this->getUserIdentity();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$userIdentity || !$userIdentity->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -60,22 +69,22 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUserIdentity(), $this->rememberMe ? 3600*24*30 : 0);
         }
         return false;
     }
 
-    /**
+     /**
      * Finds user by [[username]]
      *
      * @return User|null
      */
-    public function getUser()
+    public function getUserIdentity()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+        if ($this->_userIdentity === false) {
+            $this->_userIdentity = UserIdentity::findByUsername($this->username);
         }
 
-        return $this->_user;
+        return $this->_userIdentity;
     }
 }

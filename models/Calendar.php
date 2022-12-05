@@ -15,6 +15,7 @@ use Yii;
  */
 class Calendar extends \yii\db\ActiveRecord
 {
+    
     /**
      * {@inheritdoc}
      */
@@ -43,8 +44,8 @@ class Calendar extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date' => 'Date',
-            'type_id' => 'Type ID',
+            'date' => 'Дата',
+            'type_id' => 'Вид дня',
         ];
     }
 
@@ -57,4 +58,5 @@ class Calendar extends \yii\db\ActiveRecord
     {
         return $this->hasOne(DayType::class, ['id' => 'type_id']);
     }
+
 }

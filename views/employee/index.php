@@ -6,6 +6,8 @@ use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\Dep;
+use app\models\Graph;
 /** @var yii\web\View $this */
 /** @var app\models\EmployeeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -33,8 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'fio',
             'num',
-            'dep_id',
-            'graph_id',
+            [   'attribute'=>'dep_id',
+                'value'=> function(Employee $model) {
+                    return $model->dep_id ? Dep::findOne($model->dep_id)->name : null;},
+                'filter'=>$dep_list
+            ],
+            [   'attribute'=>'graph_id',
+                'value'=> function(Employee $model) {
+                    return $model->graph_id ? Graph::findOne($model->graph_id)->name : null;},
+                'filter'=>$graph_list
+            ],
             'email:email',
             //'pass',
             //'salt',

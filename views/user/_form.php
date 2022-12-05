@@ -4,27 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\Employee $model */
+/** @var app\models\User $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="employee-form">
+<div class="user-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'num')->textInput() ?>
-
-    <?= $form->field($model, 'dep_id')->dropDownList($dep_list) ?>
-
-    <?= $form->field($model, 'graph_id')->dropDownList($graph_list) ?>
-
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-   
+    <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
 
-
+    <?= $form->field($model, 'is_admin')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

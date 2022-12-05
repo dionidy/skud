@@ -2,103 +2,75 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property int $id
+ * @property string $email Email
+ * @property string $password_hash Хэш пароля
+ * @property bool|null $is_admin Администратор
+ *
+ * @property UserRight[] $userRights
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $username;
+    const TYPE_ADMIN = 1;
+    const TYPE_BOSS = 2;
+    const TYPE_WORKER = 3;
+    
     public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
+    
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
+        return [
+            [['email'], 'required'],
+            [['is_admin'], 'boolean'],
+            [['email', 'password_hash'], 'string', 'max' => 100],
+            [['email'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'Код',
+            'email' => 'Email',
+            'password_hash' => 'Хэш пароля',
+            'is_admin' => 'Администратор',
+        ];
+    }
+    
+    public function beforeValidate() {
+        if($this->password){
+            $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);
         }
-
-        return null;
+        return parent::beforeValidate();
     }
+    
 
     /**
-     * Finds user by username
+     * Gets query for [[UserRights]].
      *
-     * @param string $username
-     * @return static|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function findByUsername($username)
+    public function getUserRights()
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return $this->hasMany(UserRight::class, ['user_id' => 'id']);
     }
 }
