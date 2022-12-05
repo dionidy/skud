@@ -4,12 +4,12 @@ use yii\bootstrap5\Html;
 /** @var yii\web\View $this */
 /** @var bool $isGuest */
 
-$this->title = 'Система';
+$this->title = 'Система контроля и управления доступом';
 ?>
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4"> Система контроля и управление доступом </h1>        
+        <h1 class="display-4"> Система контроля и управления доступом </h1>        
 
         <?php
         if($isGuest) {
