@@ -7,6 +7,7 @@ use app\models\DepSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * DepController implements the CRUD actions for Dep model.
@@ -21,6 +22,16 @@ class DepController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

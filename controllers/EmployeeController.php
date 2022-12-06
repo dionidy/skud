@@ -9,6 +9,7 @@ use app\models\Graph;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * EmployeeController implements the CRUD actions for Employee model.
@@ -23,6 +24,16 @@ class EmployeeController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

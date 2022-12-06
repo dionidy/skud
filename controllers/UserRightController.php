@@ -7,6 +7,7 @@ use app\models\UserRightSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * UserRightController implements the CRUD actions for UserRight model.
@@ -21,6 +22,16 @@ class UserRightController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
