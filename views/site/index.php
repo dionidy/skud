@@ -27,13 +27,3 @@ $this->title = 'Система контроля и управления дост
     </div>    
 </div>
 
-
-
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=employee/">Сотрудники</a> <br>
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=dep/">Отделы</a> <br>
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=calendar/">Произв.календарь</a> <br>
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=graph/">Графики работы</a> <br>
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=move/">Движения</a> <br>
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=role/">Роли</a> <br>
-        <a class="btn btn-lg btn-success" href="http://localhost/yii/web/?r=user-calendar/">Отклонения</a> <br>
-
