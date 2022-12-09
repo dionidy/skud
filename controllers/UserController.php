@@ -14,6 +14,10 @@ use yii\filters\AccessControl;
  */
 class UserController extends Controller
 {
+    private function getUser() :?User {
+        return Yii::$app->user->isGuest ? null : Yii::$app->user->identity->user;
+    }
+
     /**
      * @inheritDoc
      */
@@ -28,9 +32,12 @@ class UserController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
+                            'matchCallback' => function() use($user) {
+                                return $user->is_admin;                                
+                            },
                             'roles' => ['@'],
                         ],
-                ],
+                    ],
             ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
@@ -82,13 +89,13 @@ class UserController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->render('form', [
             'model' => $model,
         ]);
     }
@@ -105,10 +112,10 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
+        return $this->render('form', [
             'model' => $model,
         ]);
     }

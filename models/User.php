@@ -36,9 +36,9 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email'], 'required'],
+            [['email', 'is_admin'], 'required'],
             [['is_admin'], 'boolean'],
-            [['email', 'password_hash'], 'string', 'max' => 100],
+            [['email', 'password_hash', 'password'], 'string', 'max' => 100],
             [['email'], 'unique'],
         ];
     }
@@ -53,6 +53,7 @@ class User extends \yii\db\ActiveRecord
             'email' => 'Email',
             'password_hash' => 'Хэш пароля',
             'is_admin' => 'Администратор',
+            'password' => 'Пароль',
         ];
     }
     

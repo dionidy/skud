@@ -28,8 +28,10 @@ class AdmController extends Controller{
                     'rules' => [
                         [
                             'allow' => true,
+                            'matchCallback' => function() use($user) {
+                                return $user->is_admin;                                
+                            },
                             'roles' => ['@'],
-                            //'matchCallback' => function(app\models\User)
                         ],
                     ],
             ],
