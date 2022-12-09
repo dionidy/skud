@@ -43,7 +43,7 @@ class Graph extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'start' => 'Время начало',
+            'start' => 'Время начала',
             'end' => 'Время окончания',
             'break_start' => 'Начало перерыва',
             'break_end' => 'Окончание перерыва',

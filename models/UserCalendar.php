@@ -18,6 +18,12 @@ use Yii;
  */
 class UserCalendar extends \yii\db\ActiveRecord
 {
+
+    const TYPE_WORK = 1;
+    const TYPE_VACATION = 2;
+    const TYPE_WEEKEND = 3;
+    const TYPE_SICK = 3;
+
     /**
      * {@inheritdoc}
      */
@@ -46,11 +52,11 @@ class UserCalendar extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'employee_id' => 'Employee ID',
-            'type_id' => 'Type ID',
-            'date_start' => 'Date Start',
-            'date_end' => 'Date End',
+            'id' => 'Код',
+            'employee_id' => 'Сотрудник',
+            'type_id' => 'Тип пропуска',
+            'date_start' => 'Дата начала',
+            'date_end' => 'Дата окончания',
         ];
     }
 

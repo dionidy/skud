@@ -68,6 +68,7 @@ class DepController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'depList' => Dep::getList(),
         ]);
     }
 
@@ -82,14 +83,15 @@ class DepController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->render('form', [
             'model' => $model,
+            'depList' => Dep::getList(),
         ]);
     }
 
@@ -108,8 +110,9 @@ class DepController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
+        return $this->render('form', [
             'model' => $model,
+            'depList' => Dep::getList(),
         ]);
     }
 

@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
-<div class="user-ceate">
+<div class="user-modify">
+
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="user-form">
         <?php $form = ActiveForm::begin(); ?>

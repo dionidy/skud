@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "dep".
  *
  * @property int $id
- * @property string|null $name
+ * @property string|null $name  Название
  *
  * @property Employee[] $employees
  */

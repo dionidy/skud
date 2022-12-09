@@ -8,14 +8,12 @@ use Yii;
  * This is the model class for table "employee".
  *
  * @property int $id
- * @property string|null $fio
- * @property int|null $num
- * @property int|null $dep_id
- * @property int|null $graph_id
+ * @property string|null $fio   ФИО
+ * @property int|null $num      Таб. номер
+ * @property int|null $dep_id   ид подразделения
+ * @property int|null $graph_id ид графика работы
  * @property string|null $email
- * @property string|null $pass
- * @property string|null $salt
- *
+  *
  * @property Dep $dep
  * @property Move[] $moves
  * @property UserCalendar[] $userCalendars
@@ -40,8 +38,6 @@ class Employee extends \yii\db\ActiveRecord
             [['num', 'dep_id', 'graph_id'], 'default', 'value' => null],
             [['num', 'dep_id', 'graph_id'], 'integer'],
             [['fio', 'email'], 'string', 'max' => 45],
-            [['pass'], 'string', 'max' => 50],
-            [['salt'], 'string', 'max' => 9],
             [['dep_id'], 'exist', 'skipOnError' => true, 'targetClass' => Dep::class, 'targetAttribute' => ['dep_id' => 'id']],
         ];
     }
@@ -58,8 +54,6 @@ class Employee extends \yii\db\ActiveRecord
             'dep_id' => 'Отдел',
             'graph_id' => 'График работы',
             'email' => 'Email',
-            'pass' => 'Pass',
-            'salt' => 'Salt',
         ];
     }
 

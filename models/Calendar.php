@@ -8,14 +8,42 @@ use Yii;
  * This is the model class for table "calendar".
  *
  * @property int $id
- * @property string|null $date
- * @property int|null $type_id
+ * @property string|null $date Дата
+ * @property int|null $type_id Тип
  *
  * @property DayType $type
  */
 class Calendar extends \yii\db\ActiveRecord
 {
-    
+    /**
+     * Праздник
+    */
+    const TYPE_HOLIDAY = 1;
+    /**
+     * Пред праздничный день
+    */
+    const TYPE_PREHOLIDAY = 2;
+    /**
+     * Выходной
+    */
+    const TYPE_WEEKEND = 3;
+    /**
+     * Не рабочий день
+    */
+    const TYPE_NOTWORK = 4;
+
+    public static function getDayTypes():array {
+        $list = [
+                self::TYPE_HOLIDAY,
+                self::TYPE_PREHOLIDAY,
+                self::TYPE_WEEKEND,
+                self::TYPE_NOTWORK 
+        ];
+
+        return $list;
+    }
+
+
     /**
      * {@inheritdoc}
      */

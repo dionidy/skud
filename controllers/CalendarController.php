@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\Calendar;
-use \app\models\DayType;
 use app\models\CalendarSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -67,8 +66,9 @@ class CalendarController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('form', [
             'model' => $this->findModel($id),
+            'dayTypes' => Calendar::getDayTypes(),
         ]);
     }
 
@@ -83,17 +83,15 @@ class CalendarController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        $dayTypes = DayType::getDayTypes();
-        
-        return $this->render('create', [
+        return $this->render('form', [
             'model' => $model,
-            'dayTypes' => $dayTypes,
+            'dayTypes' => Calendar::getDayTypes(),
         ]);
     }
 
@@ -109,11 +107,12 @@ class CalendarController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
+        return $this->render('form', [
             'model' => $model,
+            'dayTypes' => Calendar::getDayTypes(),
         ]);
     }
 

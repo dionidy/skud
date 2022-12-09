@@ -16,12 +16,34 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    /**
+     * Администратор
+     */
     const TYPE_ADMIN = 1;
+    /**
+     * Начальник
+    */
     const TYPE_BOSS = 2;
+    /**
+     * Рабочий
+     */
     const TYPE_WORKER = 3;
     
     public $password;
     
+    public static function getUserTypes():array {
+        $list = [
+                self::TYPE_ADMIN,
+                self::TYPE_BOSS,
+                self::TYPE_WORKER,
+        ];
+
+        return $list;
+    }
+
+
+
+
     /**
      * {@inheritdoc}
      */
