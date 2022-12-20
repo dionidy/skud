@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Move;
+use app\models\TotalTime;
 
 /**
- * MoveSearch represents the model behind the search form of `app\models\Move`.
+ * TotalTimeSearch represents the model behind the search form of `app\models\TotalTime`.
  */
-class MoveSearch extends Move
+class TotalTimeSearch extends TotalTime
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class MoveSearch extends Move
     public function rules()
     {
         return [
-            [['id', 'employee_id'], 'integer'],
-            [['date_in', 'date_out'], 'safe'],
+            [['id', 'employee_id', 'work_time', 'absence_time', 'absence_type'], 'integer'],
+            [['date'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class MoveSearch extends Move
      */
     public function search($params)
     {
-        $query = Move::find();
+        $query = TotalTime::find();
 
         // add conditions that should always apply here
 
@@ -60,8 +60,10 @@ class MoveSearch extends Move
         $query->andFilterWhere([
             'id' => $this->id,
             'employee_id' => $this->employee_id,
-            'date_in' => $this->date_in,
-            'date_out' => $this->date_out,
+            'date' => $this->date,
+            'work_time' => $this->work_time,
+            'absence_time' => $this->absence_time,
+            'absence_type' => $this->absence_type,
         ]);
 
         return $dataProvider;

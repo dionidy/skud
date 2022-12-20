@@ -3,6 +3,7 @@ use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var bool $isGuest */
+/** @var bool $isAdmin */
 
 $this->title = 'Система контроля и управления доступом';
 ?>
@@ -20,8 +21,13 @@ $this->title = 'Система контроля и управления дост
             <?= Html::a('Подразделения', ['dep/index'], ['class' => 'btn btn-success']) ?>
             <?= Html::a('Графики работы', ['graph/index'], ['class' => 'btn btn-success']) ?>
             <?= Html::a('Произв. календарь', ['calendar/index'], ['class' => 'btn btn-success']) ?>
-            <?= Html::a('Отклонения', ['user-calendar/index'], ['class' => 'btn btn-success']) ?>
-            <?= Html::a('Пользователи', ['user/index'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Отклонения', ['absence/index'], ['class' => 'btn btn-success']) ?>
+            <br>
+            <br>
+            <?= $isAdmin ? Html::a('Пользователи', ['user/index'], ['class' => 'btn btn-success']) : "" ?>
+            <?= $isAdmin ? Html::a('Движения', ['move/index'], ['class' => 'btn btn-success']) : "" ?>
+            <?= $isAdmin ? Html::a('Подссчет времени', ['total-time/index'], ['class' => 'btn btn-success']) : "" ?>
+            
         </p>
         <?php } ?>
     </div>    

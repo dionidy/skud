@@ -97,6 +97,15 @@ class Employee extends \yii\db\ActiveRecord
         return $this->hasMany(User::class, ['employee_id' => 'id']);
     }
     
+    public static function getEmployeeFio(){
+        $models = Employee::find()->orderBy('id')->all();
+        $list = [];
+        foreach($models as $model){
+            $list[$model->id] = $model->fio;
+        }
+        return $list;
+    }
+  
 
     
     

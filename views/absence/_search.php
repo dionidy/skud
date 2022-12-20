@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\UserCalendarSearch $model */
+/** @var app\models\AbsenceSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="user-calendar-search">
+<div class="absence-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],

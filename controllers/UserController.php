@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use Yii;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -23,6 +24,7 @@ class UserController extends Controller
      */
     public function behaviors()
     {
+        $user = $this->getUser();
         return array_merge(
             parent::behaviors(),
             [

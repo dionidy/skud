@@ -2,18 +2,17 @@
 
 namespace app\controllers;
 
-use app\models\Move;
-use app\models\MoveSearch;
+use app\models\Absence;
+use app\models\AbsenceSearch;
+use app\models\Employee;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use app\models\Employee;
 
 /**
- * MoveController implements the CRUD actions for Move model.
+ * AbsenceController implements the CRUD actions for Absence model.
  */
-class MoveController extends Controller
+class AbsenceController extends Controller
 {
     /**
      * @inheritDoc
@@ -23,16 +22,6 @@ class MoveController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'only' => [],
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
-                    ],
-            ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -44,44 +33,46 @@ class MoveController extends Controller
     }
 
     /**
-     * Lists all Move models.
+     * Lists all Absence models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new MoveSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        $employeeList = Employee::getEmployeeFio();
-
+        $searchModel    = new AbsenceSearch();
+        $dataProvider   = $searchModel->search($this->request->queryParams);
+        $absenceTypes   = Absence::getTypes();
+        $employeeFio    = Employee::getEmployeeFio();
+        
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'employeeList' => $employeeList,
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
+            'absenceTypes'  => $absenceTypes,
+            'employeeFio'   => $employeeFio,
         ]);
     }
 
     /**
-     * Displays a single Move model.
+     * Displays a single Absence model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
-        return $this->render('form', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+//    public function actionView($id)
+//    {
+//        return $this->render('view', [
+//            'model' => $this->findModel($id),
+//        ]);
+//    }
 
     /**
-     * Creates a new Move model.
+     * Creates a new Absence model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Move();
+        $model = new Absence();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -91,13 +82,18 @@ class MoveController extends Controller
             $model->loadDefaultValues();
         }
 
+        $absenceTypes   = Absence::getTypes();
+        $employeeFio    = Employee::getEmployeeFio();
+        
         return $this->render('form', [
             'model' => $model,
+            'absenceTypes' => $absenceTypes,
+            'employeeFio' => $employeeFio
         ]);
     }
 
     /**
-     * Updates an existing Move model.
+     * Updates an existing Absence model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -108,16 +104,16 @@ class MoveController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
+        return $this->render('form', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Deletes an existing Move model.
+     * Deletes an existing Absence model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -131,15 +127,15 @@ class MoveController extends Controller
     }
 
     /**
-     * Finds the Move model based on its primary key value.
+     * Finds the Absence model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Move the loaded model
+     * @return Absence the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Move::findOne(['id' => $id])) !== null) {
+        if (($model = Absence::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

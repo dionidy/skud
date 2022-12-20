@@ -9,8 +9,10 @@ use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 /** @var app\models\CalendarSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var dayTypes */
 
-$this->title = 'Не рабочие дни (произв.календарь)';
+
+$this->title = 'Производственный календарь';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="calendar-index">
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Calendar', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить запись', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -31,13 +33,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
-            'date',
-            'type_id',
+            'date:date',
+            [
+                'attribute' => 'type_id',
+                'value' => function(Calendar $model) use($dayTypes){
+                    return $model->type_id ? $dayTypes[$model->type_id] : null; 
+                },
+                'filter' => $dayTypes,
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Calendar $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'template' => '{update} {delete}',
             ],
         ],
     ]); ?>

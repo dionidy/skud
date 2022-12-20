@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Dep', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать отдел', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -31,12 +31,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
-            'name',
+            [
+                'attribute' => 'name',
+                'value' => function(Dep $model) {
+                    return Html::a($model->name, ['employee/index', 'EmployeeSearch[dep_id]' => $model->id]);
+                },
+                'format' => 'raw'
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Dep $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'template' => '{update} {delete}',
             ],
         ],
     ]); ?>

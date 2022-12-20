@@ -23,9 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'employee_id')->textInput() ?>
 
-        <?= $form->field($model, 'in')->textInput() ?>
+        <?= $form->field($model, 'date_in')->textInput() ?>
 
-        <?= $form->field($model, 'out')->textInput() ?>
+        <?= $form->field($model, 'date_out')->textInput() ?>
 
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

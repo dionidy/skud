@@ -5,23 +5,25 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "move".
+ * This is the model class for table "total_time".
  *
  * @property int $id
- * @property int|null $employee_id
- * @property string|null $date_in
- * @property string|null $date_out
+ * @property int|null $employee_id Сотрудник
+ * @property string|null $date Дата
+ * @property int|null $work_time Отработано
+ * @property int|null $absence_time Пропущено
+ * @property int|null $absence_type Тип пропуска
  *
  * @property Employee $employee
  */
-class Move extends \yii\db\ActiveRecord
+class TotalTime extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'move';
+        return 'total_time';
     }
 
     /**
@@ -30,9 +32,9 @@ class Move extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['employee_id'], 'default', 'value' => null],
-            [['employee_id'], 'integer'],
-            [['date_in', 'date_out'], 'safe'],
+            [['employee_id', 'work_time', 'absence_time', 'absence_type'], 'default', 'value' => null],
+            [['employee_id', 'work_time', 'absence_time', 'absence_type'], 'integer'],
+            [['date'], 'safe'],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::class, 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }
@@ -45,8 +47,10 @@ class Move extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'employee_id' => 'Сотрудник',
-            'date_in' => 'Вход',
-            'date_out' => 'Выход',
+            'date' => 'Дата',
+            'work_time' => 'Отработано',
+            'absence_time' => 'Пропущено',
+            'absence_type' => 'Тип пропуска',
         ];
     }
 

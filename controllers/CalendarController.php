@@ -55,6 +55,7 @@ class CalendarController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dayTypes' => Calendar::getDayTypes(),
         ]);
     }
 

@@ -17,3 +17,8 @@
 
 ./yii migrate/create create_day_type_table --fields="type:char(45)"
 ./yii migrate/create create_user_table --fields="name:string(100)"
+./yii migrate/create alter_user_hash_column_to_table_user --fields="name:string(100)"
+
+./yii migrate/create rename_user_calendar_table
+./yii migrate/create alter_date_start_column_to_absence_table
+./yii migrate/create alter_date_end_column_to_absence_table

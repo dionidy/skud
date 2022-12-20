@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "user_calendar".
+ * This is the model class for table "absence".
  *
  * @property int $id
  * @property int|null $employee_id
@@ -14,24 +14,51 @@ use Yii;
  * @property string|null $date_end
  *
  * @property Employee $employee
- * @property DayType $type
  */
-class UserCalendar extends \yii\db\ActiveRecord
+class Absence extends \yii\db\ActiveRecord
 {
-
-    const TYPE_WORK = 1;
-    const TYPE_VACATION = 2;
-    const TYPE_WEEKEND = 3;
-    const TYPE_SICK = 3;
-
+    /**
+     * Рабочий
+    */
+    const TYPE_WORK = 0;
+    /**
+     * Больничный
+    */
+    const TYPE_SICK = 1;
+    /**
+    * Выходной
+    */
+    const TYPE_WEEKEND = 2;
+    /**
+     * Отпуск
+    */
+    const TYPE_VACATION = 3;
+    /**
+     * Прогул
+    */
+    const TYPE_ABSENCE = 4;
+    
+    
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'user_calendar';
+        return 'absence';
     }
 
+    public static function getTypes(){
+        return [
+                self::TYPE_WORK     => 'Рабочий',
+                self::TYPE_SICK     => 'Больничный',
+                self::TYPE_WEEKEND  => 'Выходной',
+                self::TYPE_VACATION => 'Отпуск',
+                self::TYPE_ABSENCE  => 'Прогул',
+        ];
+    }
+    
+    
+    
     /**
      * {@inheritdoc}
      */
@@ -41,7 +68,6 @@ class UserCalendar extends \yii\db\ActiveRecord
             [['employee_id', 'type_id'], 'default', 'value' => null],
             [['employee_id', 'type_id'], 'integer'],
             [['date_start', 'date_end'], 'safe'],
-            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => DayType::class, 'targetAttribute' => ['type_id' => 'id']],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::class, 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }
@@ -53,7 +79,7 @@ class UserCalendar extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'Код',
-            'employee_id' => 'Сотрудник',
+            'employee_id' => 'Код сотрудника',
             'type_id' => 'Тип пропуска',
             'date_start' => 'Дата начала',
             'date_end' => 'Дата окончания',
@@ -68,15 +94,5 @@ class UserCalendar extends \yii\db\ActiveRecord
     public function getEmployee()
     {
         return $this->hasOne(Employee::class, ['id' => 'employee_id']);
-    }
-
-    /**
-     * Gets query for [[Type]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getType()
-    {
-        return $this->hasOne(DayType::class, ['id' => 'type_id']);
     }
 }

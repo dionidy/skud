@@ -1,24 +1,24 @@
 <?php
 
-use app\models\UserCalendar;
+use app\models\TotalTime;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
-/** @var app\models\UserCalendarSearch $searchModel */
+/** @var app\models\TotalTimeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Отклонения по графику';
+$this->title = 'Total Times';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-calendar-index">
+<div class="total-time-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create User Calendar', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Total Time', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -30,14 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
+            'id',
             'employee_id',
-            'type_id',
-            'date_start',
-            'date_end',
+            'date',
+            'work_time:datetime',
+            'absence_time:datetime',
+            //'absence_type',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, UserCalendar $model, $key, $index, $column) {
+                'urlCreator' => function ($action, TotalTime $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

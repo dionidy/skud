@@ -1,18 +1,17 @@
 <?php
 
-namespace app\controllers;
+namespace app\models;
 
-use app\models\UserCalendar;
-use app\models\UserCalendarSearch;
+use app\models\TotalTime;
+use app\models\TotalTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * UserCalendarController implements the CRUD actions for UserCalendar model.
+ * TotalTimeController implements the CRUD actions for TotalTime model.
  */
-class UserCalendarController extends Controller
+class TotalTimeController extends Controller
 {
     /**
      * @inheritDoc
@@ -22,16 +21,6 @@ class UserCalendarController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'only' => [],
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
-                    ],
-            ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -43,13 +32,13 @@ class UserCalendarController extends Controller
     }
 
     /**
-     * Lists all UserCalendar models.
+     * Lists all TotalTime models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new UserCalendarSearch();
+        $searchModel = new TotalTimeSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -59,7 +48,7 @@ class UserCalendarController extends Controller
     }
 
     /**
-     * Displays a single UserCalendar model.
+     * Displays a single TotalTime model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -72,13 +61,13 @@ class UserCalendarController extends Controller
     }
 
     /**
-     * Creates a new UserCalendar model.
+     * Creates a new TotalTime model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new UserCalendar();
+        $model = new TotalTime();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -94,7 +83,7 @@ class UserCalendarController extends Controller
     }
 
     /**
-     * Updates an existing UserCalendar model.
+     * Updates an existing TotalTime model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -114,7 +103,7 @@ class UserCalendarController extends Controller
     }
 
     /**
-     * Deletes an existing UserCalendar model.
+     * Deletes an existing TotalTime model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -128,15 +117,15 @@ class UserCalendarController extends Controller
     }
 
     /**
-     * Finds the UserCalendar model based on its primary key value.
+     * Finds the TotalTime model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return UserCalendar the loaded model
+     * @return TotalTime the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UserCalendar::findOne(['id' => $id])) !== null) {
+        if (($model = TotalTime::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

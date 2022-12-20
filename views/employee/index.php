@@ -11,6 +11,8 @@ use app\models\Graph;
 /** @var yii\web\View $this */
 /** @var app\models\EmployeeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var graph_list */
+/** @var dep_list */
 
 $this->title = 'Сотрудники';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Employee', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать сотрудника', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -36,13 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'fio',
             'num',
             [   'attribute'=>'dep_id',
-                'value'=> function(Employee $model) {
-                    return $model->dep_id ? Dep::findOne($model->dep_id)->name : null;},
+                'value'=> function(Employee $model) use($dep_list) {
+                    return $model->dep_id ? $dep_list[$model->dep_id] : null;},
                 'filter'=>$dep_list
             ],
             [   'attribute'=>'graph_id',
-                'value'=> function(Employee $model) {
-                    return $model->graph_id ? Graph::findOne($model->graph_id)->name : null;},
+                'value'=> function(Employee $model) use($graph_list) {
+                    return $model->graph_id ? $graph_list[$model->graph_id] : null;},
                 'filter'=>$graph_list
             ],
             'email:email',
@@ -52,8 +54,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Employee $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'template' => '{update} {delete} ',
             ],
+
         ],
     ]); ?>
 

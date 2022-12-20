@@ -22,9 +22,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'employee_id') ?>
 
-    <?= $form->field($model, 'in') ?>
+    <?= $form->field($model, 'date_in') ?>
 
-    <?= $form->field($model, 'out') ?>
+    <?= $form->field($model, 'date_out') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

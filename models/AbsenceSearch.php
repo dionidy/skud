@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\UserCalendar;
+use app\models\Absence;
 
 /**
- * UserCalendarSearch represents the model behind the search form of `app\models\UserCalendar`.
+ * AbsenceSearch represents the model behind the search form of `app\models\Absence`.
  */
-class UserCalendarSearch extends UserCalendar
+class AbsenceSearch extends Absence
 {
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class UserCalendarSearch extends UserCalendar
      */
     public function search($params)
     {
-        $query = UserCalendar::find();
+        $query = Absence::find();
 
         // add conditions that should always apply here
 
