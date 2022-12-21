@@ -69,7 +69,7 @@ class Calendar extends \yii\db\ActiveRecord
             [['date'], 'safe'],
             [['type_id'], 'default', 'value' => null],
             [['type_id'], 'integer'],
-            //[['type_id'], 'in', self::getDayTypes()],
+            [['type_id'], 'in', 'range' => array_keys(self::getDayTypes())],
         ];
     }
 

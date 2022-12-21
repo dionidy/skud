@@ -71,6 +71,7 @@ class TotalTimeController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                calcTotalTime();
                 return $this->redirect(['index']);
             }
         } else {

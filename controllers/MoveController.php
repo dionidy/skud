@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Move;
 use app\models\MoveSearch;
+use app\models\TotalTime;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -85,6 +86,8 @@ class MoveController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                TotalTime::insertTotalTime($model->employee_id, $model->date_in, $model->date_out);
+
                 return $this->redirect(['index']);
             }
         } else {
