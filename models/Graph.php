@@ -24,6 +24,13 @@ class Graph extends \yii\db\ActiveRecord
         return 'graph';
     }
 
+    
+    /**
+     * возможность сверхурочной работы
+     * @var type = boolean
+    */
+    //public $canOverTime = false;
+    
     /**
      * {@inheritdoc}
      */
@@ -58,5 +65,40 @@ class Graph extends \yii\db\ActiveRecord
         }
         return $list;
     }
+    
+    /**
+     * 
+     */
+    public function calcTimeInInterval($intStart, $intEnd, $timeIn, $timeOut){
+        if ($timeIn > $intEnd or $timeOut < $intStart)
+            return 0;
+        if ($timeIn <= $intStart and $timeOut >= $intEnd)
+            return $intEnd - $intStart;
+        if ($timeIn <= $intStart and $timeOut <= $intEnd)
+            return $timeOut - $intStart;
+        if ($timeIn >= $intStart and $timeOut <= $intEnd)
+            return $timeOut - $timeIn;
+        if ($timeIn >= $intStart and $timeOut >= $intEnd)
+            return $intEnd - $timeIn;
+    }
+     
+    public function getTotalWorkMin($date_in, $date_out){
+        $timeIn  = strtotime(explode(" ", $date_in)[1]);
+        $timeOut = strtotime(explode(" ", $date_out)[1]);
+        
+        if ($timeIn>=$timeOut) return 0;
+        
+        $totalTime = 0;
+        $intStart= strtotime($this->start);
+        $intEnd  = strtotime($this->break_start);
+        $totalTime += $this->calcTimeInInterval($intStart, $intEnd, $timeIn, $timeOut);
+        
+        $intStart= strtotime($this->break_end);
+        $intEnd  = strtotime($this->end);
+        $totalTime += $this->calcTimeInInterval($intStart, $intEnd, $timeIn, $timeOut);
+ 
+        return $totalTime/60;
+    }
+  
     
 }

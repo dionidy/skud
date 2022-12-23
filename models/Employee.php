@@ -78,14 +78,25 @@ class Employee extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[UserCalendars]].
+     * Gets query for [[Absence]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUserCalendars()
+    public function getAbsences()
     {
-        return $this->hasMany(UserCalendar::class, ['employee_id' => 'id']);
+        return $this->hasMany(Absence::class, ['employee_id' => 'id']);
     }
+    
+    /**
+     * Gets query for [[Graph]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGraph()
+    {
+        return $this->hasOne(Graph::class, ['id' => 'graph_id']);
+    }
+    
 
     /**
      * Gets query for [[Users]].
