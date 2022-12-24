@@ -24,9 +24,14 @@ $this->title = 'Система контроля и управления дост
             <?= Html::a('Отклонения', ['absence/index'], ['class' => 'btn btn-success']) ?>
             <br>
             <br>
+            <?= Html::a('Отчет - Учет рабочего времени', ['total-time/tabel'], ['class' => 'btn btn-success']) ?>
+            
+            
+            <br>
+            <br>
             <?= $isAdmin ? Html::a('Пользователи', ['user/index'], ['class' => 'btn btn-success']) : "" ?>
             <?= $isAdmin ? Html::a('Движения', ['move/index'], ['class' => 'btn btn-success']) : "" ?>
-            <?= $isAdmin ? Html::a('Подссчет времени', ['total-time/index'], ['class' => 'btn btn-success']) : "" ?>
+            <?= $isAdmin ? Html::a('Подсчет времени', ['total-time/index'], ['class' => 'btn btn-success']) : "" ?>
             
         </p>
         <?php } ?>

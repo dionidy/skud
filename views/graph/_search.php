@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'start') ?>
 
     <?= $form->field($model, 'end') ?>
+    
+    <?= $form->field($model, 'norm') ?>
 
     <?= $form->field($model, 'break_start') ?>
 

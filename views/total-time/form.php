@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'date')->textInput() ?>
 
     <?= $form->field($model, 'work_time')->textInput() ?>
+    
+    <?= $form->field($model, 'over_time')->textInput() ?>
 
     <?= $form->field($model, 'absence_time')->textInput() ?>
 

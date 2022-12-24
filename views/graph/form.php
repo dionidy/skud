@@ -21,9 +21,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'break_start')->textInput() ?>
 
     <?= $form->field($model, 'break_end')->textInput() ?>
+    
+    <?= $form->field($model, 'norm')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

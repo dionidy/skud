@@ -65,9 +65,7 @@ class EmployeeSearch extends Employee
         ]);
 
         $query->andFilterWhere(['ilike', 'fio', $this->fio])
-            ->andFilterWhere(['ilike', 'email', $this->email])
-            ->andFilterWhere(['ilike', 'pass', $this->pass])
-            ->andFilterWhere(['ilike', 'salt', $this->salt]);
+            ->andFilterWhere(['ilike', 'email', $this->email]);
 
         return $dataProvider;
     }

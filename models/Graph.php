@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "graph".
  *
@@ -29,7 +30,13 @@ class Graph extends \yii\db\ActiveRecord
      * возможность сверхурочной работы
      * @var type = boolean
     */
-    //public $canOverTime = false;
+    public $canOverTime = false;
+    
+    
+    /**
+     * минимальное время для учета сверхурочной работы
+    */
+    const MIN_OVERTIME = 30;
     
     /**
      * {@inheritdoc}
@@ -39,6 +46,8 @@ class Graph extends \yii\db\ActiveRecord
         return [
             [['start', 'end', 'break_start', 'break_end'], 'safe'],
             [['name'], 'string', 'max' => 45],
+            [['norm'], 'integer'],
+            [['start', 'end', 'norm'], 'required'],
         ];
     }
 
@@ -54,6 +63,7 @@ class Graph extends \yii\db\ActiveRecord
             'end' => 'Время окончания',
             'break_start' => 'Начало перерыва',
             'break_end' => 'Окончание перерыва',
+            'norm' => 'Дневная норма',
         ];
     }
     
@@ -67,38 +77,65 @@ class Graph extends \yii\db\ActiveRecord
     }
     
     /**
-     * 
+     * Подсчет минут периода timeIn - timeOut, 
+     * входящих в интервал IintStart - intEnd
      */
-    public function calcTimeInInterval($intStart, $intEnd, $timeIn, $timeOut){
+    public function calcTimeInInterval(string $intStart, string $intEnd, string $timeIn, string $timeOut){
         if ($timeIn > $intEnd or $timeOut < $intStart)
             return 0;
         if ($timeIn <= $intStart and $timeOut >= $intEnd)
-            return $intEnd - $intStart;
+            return ($intEnd - $intStart)/60;
         if ($timeIn <= $intStart and $timeOut <= $intEnd)
-            return $timeOut - $intStart;
+            return ($timeOut - $intStart)/60;
         if ($timeIn >= $intStart and $timeOut <= $intEnd)
-            return $timeOut - $timeIn;
+            return ($timeOut - $timeIn)/60;
         if ($timeIn >= $intStart and $timeOut >= $intEnd)
-            return $intEnd - $timeIn;
+            return ($intEnd - $timeIn)/60;
     }
      
-    public function getTotalWorkMin($date_in, $date_out){
+    public function getTotalWorkMin(string $date_in, string $date_out){
         $timeIn  = strtotime(explode(" ", $date_in)[1]);
         $timeOut = strtotime(explode(" ", $date_out)[1]);
         
         if ($timeIn>=$timeOut) return 0;
         
         $totalTime = 0;
-        $intStart= strtotime($this->start);
-        $intEnd  = strtotime($this->break_start);
-        $totalTime += $this->calcTimeInInterval($intStart, $intEnd, $timeIn, $timeOut);
+        $totalTime += $this->calcTimeInInterval(strtotime($this->start),
+                                strtotime($this->break_start),
+                                $timeIn,
+                                $timeOut
+                                );
         
-        $intStart= strtotime($this->break_end);
-        $intEnd  = strtotime($this->end);
-        $totalTime += $this->calcTimeInInterval($intStart, $intEnd, $timeIn, $timeOut);
+        $totalTime += $this->calcTimeInInterval(
+                                strtotime($this->break_end),
+                                strtotime($this->end),
+                                $timeIn,
+                                $timeOut
+                                );
  
-        return $totalTime/60;
+        return ceil($totalTime);
     }
-  
     
+    public function getOverTimeMin(string $date_in, string $date_out){
+        $timeIn  = strtotime(explode(" ", $date_in)[1]);
+        $timeOut = strtotime(explode(" ", $date_out)[1]);
+        
+        if ($timeIn>=$timeOut) return 0;
+        
+        $totalTime = 0;
+        $time = $this->calcTimeInInterval(strtotime('00:00:00'),
+                                $this->start,
+                                $timeIn,
+                                $timeOut);
+        $totalTime += $time>self::MIN_OVERTIME ? time : 0;
+        
+        $totalTime += $this->calcTimeInInterval(strtotime($this->end),
+                                strtotime('23:59:59'),
+                                $timeIn,
+                                $timeOut);
+        $totalTime += $time>self::MIN_OVERTIME ? time : 0;
+        
+        return ceil($totalTime);
+    }
+
 }

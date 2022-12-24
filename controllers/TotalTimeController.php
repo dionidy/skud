@@ -7,6 +7,11 @@ use app\models\TotalTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use yii\base\Model;
+use yii\data\Sort;
+use yii;
 
 /**
  * TotalTimeController implements the CRUD actions for TotalTime model.
@@ -132,4 +137,107 @@ class TotalTimeController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    
+    public function actionTabel(){
+        $searchModel = new TabelForm;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('tabel', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'dayTypes' => \app\models\Calendar::getDayTypes(),
+        ]);
+    }
+
 }
+
+class TabelForm extends Model{
+    public $dateBegin;
+    public $dateEnd;
+    public $dep;
+    public $fio;
+    public $date;
+    public $norm;
+    public $dt;
+    public $work;
+    public $over;
+    public $absence;
+
+    public function attributeLabels(){
+        return[
+            'dep'    => 'Отдел',
+            'fio'    => 'ФИО',
+            'date'   => 'Дата',
+            'norm'   => 'Дн.норма',
+            'dt'     => 'Тип дня',
+            'work'   => 'Отработано',
+            'over'   => 'Сверхурочно',
+            'absence'=> 'Пропуск',
+            'dateBegin'=> 'Начало периода',
+            'dateEnd'=> 'Конец периода',
+        ];
+    }
+    
+    public function rules() {
+        return [
+            [['dep', 'fio',], 'string'],
+            [['norm', 'dt', 'work', 'over', 'absence'],'integer'],
+            [['date','dateBegin', 'dateEnd'], 'date', 'format'=>'php:d.m.Y'],
+        ];
+    }
+    
+    public function search(array $params): ActiveDataProvider {
+        $query = (new Query())->select('d.name as dep, e.fio, c.date, g.norm, c.type_id as dt,
+                        sum(work_time) as work,
+                        sum(over_time) as over,
+                        g.norm-sum(work_time) as absence')
+                ->from('total_time t')
+                ->innerJoin(['e' => 'employee'], 't.employee_id=e.id')
+                ->innerJoin(['g' => 'graph'], 'e.graph_id=g.id')
+                ->innerJoin(['d' => 'dep'], 'e.dep_id=d.id')
+                ->rightJoin(['c' => 'calendar'], 't.date = c.date')
+                ->groupBy('d.name, e.fio, c.date, g.norm, c.type_id');
+        
+        $sort = new Sort([
+                'attributes' => [
+                    'dep',
+                    'fio',
+                    'dt',
+                    'date'=>[
+                        'asc' => ['date' => SORT_ASC, 'fio' => SORT_ASC],
+                        'desc' => ['date' => SORT_DESC, 'fio' => SORT_ASC],
+                    ],
+                ],
+        ]);
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => $sort,
+        ]);
+        
+        $this->load($params);
+        
+        if (!$this->validate()) {
+            $query->where('0=1');
+            return $dataProvider;
+        }
+        
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'dep' => $this->dep,
+            'fio' => $this->fio,
+            'norm'=> $this->norm,
+            'c.type_id'  => $this->dt,
+        ]);
+        
+        $this->dt = $this->dt ? $this->dt : 1;
+        $query->andFilterWhere(['c.type_id' => $this->dt]);
+                
+        $query->andWhere(['>=', 'c.date', $this->dateBegin])
+              ->andWhere(['<=', 'c.date', $this->dateEnd]);
+
+        return $dataProvider;
+    }
+    
+}
+

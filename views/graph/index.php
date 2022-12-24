@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Graph', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать график работ', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -36,11 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'end',
             'break_start',
             'break_end',
+            'norm',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Graph $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'template' => '{update} {delete}',
             ],
         ],
     ]); ?>

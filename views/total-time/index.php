@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\TotalTimeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Total Times';
+$this->title = 'Учтенное время';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="total-time-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Total Time', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать новую запись', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -33,14 +33,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'employee_id',
             'date',
-            'work_time:datetime',
-            'absence_time:datetime',
-            //'absence_type',
+            'work_time',
+            'over_time',
+            'absence_time',
+            'absence_type',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, TotalTime $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'template' => '{update} {delete}',
             ],
         ],
     ]); ?>

@@ -61,6 +61,7 @@ class Move extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Employee::class, ['id' => 'employee_id']);
     }
+    
     /**
      * Возвращает последнее движение по сотруднику за день где выход не заполнен
      *

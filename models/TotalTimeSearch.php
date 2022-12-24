@@ -17,7 +17,7 @@ class TotalTimeSearch extends TotalTime
     public function rules()
     {
         return [
-            [['id', 'employee_id', 'work_time', 'absence_time', 'absence_type'], 'integer'],
+            [['id', 'employee_id', 'work_time', 'over_time','absence_time', 'absence_type'], 'integer'],
             [['date'], 'safe'],
         ];
     }
@@ -62,6 +62,7 @@ class TotalTimeSearch extends TotalTime
             'employee_id' => $this->employee_id,
             'date' => $this->date,
             'work_time' => $this->work_time,
+            'over_time' => $this->over_time,
             'absence_time' => $this->absence_time,
             'absence_type' => $this->absence_type,
         ]);

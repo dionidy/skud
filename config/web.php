@@ -15,7 +15,8 @@ $config = [
     ],
     'components' => [
         'formatter' => [
-            'dateFormat' => 'php:d.m.Y'
+            'dateFormat' => 'php:d.m.Y',
+            'nullDisplay' => '',
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
